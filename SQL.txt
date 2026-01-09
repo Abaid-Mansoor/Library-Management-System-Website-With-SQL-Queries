@@ -1,0 +1,68 @@
+-- Create Books Table
+CREATE TABLE Books (
+    BookID INT PRIMARY KEY,
+    Title VARCHAR(100),
+    Author VARCHAR(100),
+    Category VARCHAR(50),
+    Status VARCHAR(20) DEFAULT 'Available'
+);
+
+-- Create Members Table
+CREATE TABLE Members (
+    MemberID INT PRIMARY KEY,
+    FullName VARCHAR(100),
+    Email VARCHAR(100),
+    MembershipDate DATE
+);
+
+-- Create BorrowLog Table
+CREATE TABLE BorrowLog (
+    LogID INT PRIMARY KEY,
+    BookID INT,
+    MemberID INT,
+    IssueDate DATE,
+    ReturnDate DATE,
+    FOREIGN KEY (BookID) REFERENCES Books(BookID),
+    FOREIGN KEY (MemberID) REFERENCES Members(MemberID)
+);
+
+-- Insert 5 Books
+INSERT INTO Books VALUES (101, 'Data Structures', 'Mark Allen', 'Computer Science', 'Available');
+INSERT INTO Books VALUES (102, 'Web Engineering', 'David Miller', 'IT', 'Available');
+INSERT INTO Books VALUES (103, 'Database Systems', 'Elmasri & Navathe', 'CS', 'Available');
+INSERT INTO Books VALUES (104, 'Operating Systems', 'Silberschatz', 'CS', 'Available');
+INSERT INTO Books VALUES (105, 'Digital Logic Design', 'Morris Mano', 'Electronics', 'Available');
+
+-- Insert 5 Members
+INSERT INTO Members VALUES (201, 'Ahmed Khan', 'ahmed@university.edu', '2026-01-08');
+INSERT INTO Members VALUES (202, 'Sara Ali', 'sara@university.edu', '2026-01-05');
+INSERT INTO Members VALUES (203, 'Bilal Shah', 'bilal@university.edu', '2026-01-07');
+INSERT INTO Members VALUES (204, 'Hira Malik', 'hira@university.edu', '2026-01-06');
+INSERT INTO Members VALUES (205, 'Usman Tariq', 'usman@university.edu', '2026-01-03');
+
+-- Insert 5 Borrow Logs
+INSERT INTO BorrowLog VALUES (1, 101, 201, '2026-01-08', '2026-01-22');
+INSERT INTO BorrowLog VALUES (2, 102, 202, '2026-01-09', '2026-01-23');
+INSERT INTO BorrowLog VALUES (3, 103, 203, '2026-01-10', '2026-01-24');
+INSERT INTO BorrowLog VALUES (4, 104, 204, '2026-01-11', '2026-01-25');
+INSERT INTO BorrowLog VALUES (5, 105, 205, '2026-01-12', '2026-01-26');
+
+
+-- ================================
+-- DISPLAY EACH TABLE ENTIRELY
+-- ================================
+
+-- 1. Display all Books
+SELECT * FROM Books;
+
+-- 2. Display all Members
+SELECT * FROM Members;
+
+-- 3. Display all BorrowLogs
+SELECT * FROM BorrowLog;
+
+(Optional) Display joined borrower info
+SELECT Members.FullName, Books.Title, BorrowLog.IssueDate, BorrowLog.ReturnDate
+FROM BorrowLog
+JOIN Members ON BorrowLog.MemberID = Members.MemberID
+JOIN Books ON BorrowLog.BookID = Books.BookID;
